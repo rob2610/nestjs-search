@@ -6,11 +6,13 @@ import { ISerperImage } from '../serperApi/serper.model';
 export class Image {
   title: string;
   imageUrl: string;
+  thumbnailUrl: string;
   imageWidth: number;
   imageHeight: number;
   constructor(iSerperImage: ISerperImage) {
     this.title = iSerperImage.title;
     this.imageUrl = iSerperImage.imageUrl;
+    this.thumbnailUrl = iSerperImage.thumbnailUrl;
     this.imageWidth = iSerperImage.imageWidth;
     this.imageHeight = iSerperImage.imageHeight;
   }

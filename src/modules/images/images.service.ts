@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Image, ImageList } from './image.model';
 import { SerperApiService } from '../serperApi/serper.service';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ImageService {
@@ -14,7 +15,13 @@ export class ImageService {
     try {
       const serperImages = await this.serperService.getImages(query, num+1, page);
       const images= serperImages.map((img) => new Image(img));
-      return new ImageList(images, this.checkNextPage(num, page, images));
+      const nextPage = this.checkNextPage(num, page, images);
+      const imageList =  new ImageList(images, nextPage);
+      if (!nextPage) {
+        return imageList;
+      }
+      return this.removeLastImage(imageList);
+
     } catch (error) {
       console.error(error);
       throw error;
@@ -23,6 +30,12 @@ export class ImageService {
 
   private checkNextPage( num:number, page: number, images: Image[]) {
     return images.length === num ? undefined : page+1;
+  }
+
+  private removeLastImage(imageList: ImageList) {
+    const imageListToReturn = _.clone(imageList);
+    imageListToReturn.images.pop();
+    return imageListToReturn;
   }
 }
 
