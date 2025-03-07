@@ -1,8 +1,9 @@
 import { Controller, Get, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+
 import { ImageService } from './images.service';
 import { Image, ImageList } from './image.model';
 
-@Controller('images')
+@Controller('api/images')
 export class ImagesController {
   constructor(private readonly searchService: ImageService) {}
 
