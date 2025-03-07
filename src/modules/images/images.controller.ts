@@ -16,8 +16,8 @@ export class ImagesController {
   @Get()
   getRoot() {
     return {
-      message: 'Welcome to Root of ImageController'
-    }
+      message: 'Welcome to Root of ImageController',
+    };
   }
 
   @UsePipes(new ValidationPipe({ transform: true }))
