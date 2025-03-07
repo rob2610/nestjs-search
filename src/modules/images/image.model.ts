@@ -18,7 +18,7 @@ export class Image {
   }
 }
 
-export class ImageList{
+export class ImageList {
   images: Image[];
   nextPage?: number;
   constructor(images: Image[], nextPage?: number) {

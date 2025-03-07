@@ -13,30 +13,31 @@ export class ImageService {
     page: number = 1,
   ): Promise<ImageList> {
     try {
-      const serperImages = await this.serperService.getImages(query, num+1, page);
-      const images= serperImages.map((img) => new Image(img));
+      const serperImages = await this.serperService.getImages(
+        query,
+        num + 1,
+        page,
+      );
+      const images = serperImages.map((img) => new Image(img));
       const nextPage = this.checkNextPage(num, page, images);
-      const imageList =  new ImageList(images, nextPage);
+      const imageList = new ImageList(images, nextPage);
       if (!nextPage) {
         return imageList;
       }
       return this.removeLastImage(imageList);
-
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  private checkNextPage( num:number, page: number, images: Image[]) {
-    return images.length === num ? undefined : page+1;
+  private checkNextPage(num: number, page: number, images: Image[]) {
+    return images.length === num ? undefined : page + 1;
   }
 
-  private removeLastImage(imageList: ImageList) {
-    const imageListToReturn = _.clone(imageList);
+  private removeLastImage(imageList: ImageList): ImageList {
+    const imageListToReturn: ImageList = _.clone(imageList);
     imageListToReturn.images.pop();
     return imageListToReturn;
   }
 }
-
-

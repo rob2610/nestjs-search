@@ -1,7 +1,8 @@
 import { SerperApiService } from '../serperApi/serper.service';
 import { ImageService } from './images.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Image } from './image.model'; // Importa il modello Image
+import { Image } from './image.model';
+import { ISerperImage } from '../serperApi/serper.model'; // Importa il modello Image
 
 describe('ImageService', () => {
   let service: ImageService;
@@ -26,42 +27,45 @@ describe('ImageService', () => {
 
   describe('Get images', () => {
     it('Should return an array of Image instances', async () => {
-      const serperImages = [{
-        title: 'Test Image',
-        imageUrl: 'http://example.com/image.jpg',
-        imageWidth: 100,
-        imageHeight: 100,
-        position: 1
-      }];
+      const serperImages = [
+        {
+          title: 'Test Image',
+          imageUrl: 'http://example.com/image.jpg',
+          imageWidth: 100,
+          imageHeight: 100,
+          position: 1,
+        },
+      ] as ISerperImage[];
 
-      // @ts-ignore
       jest.spyOn(serperService, 'getImages').mockResolvedValue(serperImages);
 
       const result = await service.getImages('test');
 
       expect(result.images).toBeInstanceOf(Array);
 
-      result.images.forEach(image => {
+      result.images.forEach((image) => {
         expect(image).toBeInstanceOf(Image);
       });
     });
   });
 
   describe('Should correctly set nextPage', () => {
-    it( 'Should set nextPage correctly when there are more images', async () => {
-      const images = [{
-        title: 'Test Image',
-        imageUrl: 'http://example.com/image.jpg',
-        imageWidth: 100,
-        imageHeight: 100,
-      }, {
-        title: 'Test Image 2',
-        imageUrl: 'http://example.com/image2.jpg',
-        imageWidth: 100,
-        imageHeight: 100,
-      }];
+    it('Should set nextPage correctly when there are more images', async () => {
+      const images = [
+        {
+          title: 'Test Image',
+          imageUrl: 'http://example.com/image.jpg',
+          imageWidth: 100,
+          imageHeight: 100,
+        },
+        {
+          title: 'Test Image 2',
+          imageUrl: 'http://example.com/image2.jpg',
+          imageWidth: 100,
+          imageHeight: 100,
+        },
+      ] as ISerperImage[];
 
-      // @ts-ignore
       jest.spyOn(serperService, 'getImages').mockResolvedValue(images);
 
       const result = await service.getImages('test', 1, 1);

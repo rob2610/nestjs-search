@@ -25,6 +25,6 @@ const createFunction = async (expressInstance): Promise<void> => {
 
 export const api = functions.https.onRequest(async (request, response) => {
   console.log('Received request:', request.method, request.url);
-    await createFunction(expressServer);
+  await createFunction(expressServer);
   expressServer(request, response);
 });
