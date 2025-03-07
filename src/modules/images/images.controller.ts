@@ -9,12 +9,19 @@ import {
 import { ImageService } from './images.service';
 import { ImageList } from './image.model';
 
-@Controller('images')
+@Controller()
 export class ImagesController {
   constructor(private readonly searchService: ImageService) {}
 
-  @UsePipes(new ValidationPipe({ transform: true }))
   @Get()
+  getRoot() {
+    return {
+      message: 'Welcome to Root of ImageController'
+    }
+  }
+
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Get('images')
   async getImages(
     @Query('query') query: string,
     @Query('num') num?: number,
